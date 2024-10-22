@@ -29,7 +29,9 @@
         
         btnDraw.addEventListener('click', ()=>{
             const value = tbValues.value;
-            barChart.draw(eval('['+value+']')); 
+            const valuesArray = value.split(',').map(Number);
+            barChart.draw(valuesArray); 
+            //usar algo diferente do eval para isso
         })
     </script>
 </body>
