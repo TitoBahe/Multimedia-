@@ -10,6 +10,7 @@
     <!-- <form> -->
         <input id="tb-values" type="text" value="1, 2, 3">
         <button id="btn-draw">Draw chart</button>
+        <button id="btn-download" disabled>Download</button>
     <!-- </form> -->
     <canvas id="canvas-chart">
         Your browser does not support the canvas element.
@@ -19,9 +20,11 @@
     <script>
         "use strict";
 
+        let flag = 0;
         const canvasChart = document.getElementById('canvas-chart');
         const btnDraw = document.getElementById('btn-draw');
         const tbValues = document.getElementById('tb-values');
+        const btnDownload = document.getElementById('btn-download');
 
         const barChart = new BarChart(canvasChart);
 
@@ -29,10 +32,37 @@
         
         btnDraw.addEventListener('click', ()=>{
             const value = tbValues.value;
+
+            //ambas as formas estão corretas abaixo
+            //const valuesArray = value.split(',').map(x => Number(x));
+
             const valuesArray = value.split(',').map(Number);
-            barChart.draw(valuesArray); 
+
+            const options = {
+                drawOutline: false,
+                drawLabels: false
+            };
+
+            flag = barChart.draw(valuesArray, options); 
             //usar algo diferente do eval para isso
+
+            btnDownload.disabled = false;
         })
+
+        btnDownload.addEventListener('click', ()=>{
+            
+            const dataUrl= canvasChart.toDataURL('image/webp', 1);
+            
+            // console.log(dataUrl);
+            const anchor = document.createElement('a');
+            anchor.href = dataUrl;
+            anchor.download = 'chart.webp';
+            //o elemento não é visivel no DOM então simulamos um click aqui:
+            anchor.click();
+            //isso de cima é como se clicasse no dataUrl
+            
+            
+        });
     </script>
 </body>
 </html>
