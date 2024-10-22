@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas BarChart</title>
+</head>
+<body>
+    <!-- <form> -->
+        <input id="tb-values" type="text" value="1, 2, 3">
+        <button id="btn-draw">Draw chart</button>
+    <!-- </form> -->
+    <canvas id="canvas-chart">
+        Your browser does not support the canvas element.
+    </canvas>
+
+    <script src="canvas-bar-chart-library.js"></script>
+    <script>
+        "use strict";
+
+        const canvasChart = document.getElementById('canvas-chart');
+        const btnDraw = document.getElementById('btn-draw');
+        const tbValues = document.getElementById('tb-values');
+
+        const barChart = new BarChart(canvasChart);
+
+        //barChart.draw([10000,20000,30000]);
+        
+        btnDraw.addEventListener('click', ()=>{
+            const value = tbValues.value;
+            barChart.draw(eval('['+value+']')); 
+        })
+    </script>
+</body>
+</html>
