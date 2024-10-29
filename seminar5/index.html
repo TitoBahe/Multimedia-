@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML5 - Histogram</title>
+</head>
+<body>
+    <canvas id="canvas-histogram">
+        Canvas is not supported.
+    </canvas>
+    <canvas id="canvas-image" style="max-width: 100%; max-height: 400px;">
+        Canvas is not supported.
+    </canvas>
+
+    <script src="canvas-bar-chart-library.js"></script>
+    
+    <script type="module">
+        //quando colocamos module, não funciona normal, precisamos de lifeserver para rodar
+        'use strict';
+
+        const canvasImage = document.getElementById('canvas-image');
+
+        document.addEventListener('dragover', (e) => e.preventDefault());
+
+        document.addEventListener('drop', (e)=>{
+            e.preventDefault();
+            if(e.dataTransfer.files.length > 0){
+
+                const file = e.dataTransfer.files[0];
+                
+                const reader = new FileReader();
+
+                reader.addEventListener('load', (e)=>{
+                    console.log(e);
+                    const dataURL = reader.result;
+                    // console.log(dataURL);
+
+                    const img = document.createElement('img');
+                    img.addEventListener('load', ()=>{
+                        const context = canvasImage.getContext('2d');
+                        canvasImage.width=img.naturalWidth;
+                        canvasImage.height= img.naturalHeight;
+                        context.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+                    });
+                    img.src = dataURL;
+                    
+                });
+
+                reader.readAsDataURL(file);
+
+               
+                // console.log(file);
+                // console.log(e.dataTransfer.types[0]);
+            }
+           
+            // console.log(e.dataTransfer.types);
+        }); 
+    </script>
+</body>
+</html>
